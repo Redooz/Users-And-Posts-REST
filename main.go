@@ -1,23 +1,35 @@
 package main
 
 import (
+	"context"
 	"log"
-	"net/http"
+	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/Redooz/Users-And-Posts-REST/routes"
+	"github.com/Redooz/Users-And-Posts-REST/server"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	r := mux.NewRouter()
+	err := godotenv.Load(".env")
 
-	r.HandleFunc("/api/v1", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World"))
+	if err != nil {
+		log.Fatalf("Error loading .env file %v\n", err)
+	}
+
+	PORT := os.Getenv("PORT")
+	JWT_SECRET := os.Getenv("JWT_SECRET")
+	DATABASE_URL := os.Getenv("DATABASE_URL")
+
+	s, err := server.NewServer(context.Background(), &server.Config{
+		Port:        PORT,
+		JWTSecret:   JWT_SECRET,
+		DatabaseURL: DATABASE_URL,
 	})
-
-	err := http.ListenAndServe(":5050", r)
 
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
+
+	s.Start(routes.BindRouter)
 }
