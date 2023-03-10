@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/Redooz/Users-And-Posts-REST/database"
+	"github.com/Redooz/Users-And-Posts-REST/models"
 	"github.com/Redooz/Users-And-Posts-REST/routes"
 	"github.com/Redooz/Users-And-Posts-REST/server"
 	"github.com/joho/godotenv"
@@ -30,6 +32,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	database.Connection(s.Config().DatabaseURL)
+
+	database.DB.AutoMigrate(models.User{})
+	database.DB.AutoMigrate(models.Post{})
 
 	s.Start(routes.BindRouter)
 }

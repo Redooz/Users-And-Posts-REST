@@ -12,3 +12,5 @@
 *.out
 
 .env
+.air.toml
+/tmp/
