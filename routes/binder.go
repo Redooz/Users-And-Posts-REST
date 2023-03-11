@@ -15,4 +15,5 @@ func BindRouter(s server.Server, r *mux.Router) {
 	r.HandleFunc("/api/v1", HomeHandler).Methods(http.MethodGet)
 
 	r.HandleFunc("/api/v1/signup", SignUpHandler).Methods(http.MethodPost)
+	r.HandleFunc("/api/v1/login", LoginHandler(s)).Methods(http.MethodPost)
 }

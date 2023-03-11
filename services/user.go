@@ -17,3 +17,13 @@ func (u *User) Create(user *models.User) *gorm.DB {
 
 	return result
 }
+
+// GetUserByEmail retrieves a user with the given email from the database.
+// It receives a string parameter email and returns a pointer to a User struct and a pointer to a gorm.DB struct.
+func (u *User) GetUserByEmail(email string) (*models.User, *gorm.DB) {
+	var user models.User
+
+	result := database.DB.Where("email = ?", email).First(&user)
+
+	return &user, result
+}
