@@ -12,16 +12,20 @@ import (
 
 var service services.User
 
+// SignUpLoginRequest is the request body for user sign up and login.
 type SignUpLoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
+// SignUpResponse is the response body for user sign up.
 type SignUpResponse struct {
 	Id    string `json:"id"`
 	Email string `json:"email"`
 }
 
+
+// SignUpHandler is the HTTP handler function for user sign up.
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	var request SignUpLoginRequest
 	err := json.NewDecoder(r.Body).Decode(&request)
